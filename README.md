@@ -15,12 +15,13 @@ Modify the function `stack.yaml` as per your environment:
   - VCUSERNAME - Username to access vCenter
   - VCPASSWORD - Password to access vCenter
   - TAGURN   - Unique ID for the tag to be attached
+  - TAGACTION - Tag action to perform, e.g. "attach" or "detach"
 - A key-value annotation defines which VM event should trigger the function
   - A list of VM events from vCenter can be found [here](https://code.vmware.com/doc/preview?id=4206#/doc/vim.event.VmEvent.html)
   - The `topic` key-value annotation uses `.` syntax, e.g. `VmPoweredOnEvent` maps to `vm.powered.on`
 
 **Note:** OpenFaaS provides some useful [debugging](https://docs.openfaas.com/deployment/troubleshooting/) configured via environment variables `write_debug` and `read_debug`.
-   
+
 ### How to retrieve the `TAGURN`
 The `TAGURN` can be retrieved from the ID field in the object, e.g. with `govc`:
 
