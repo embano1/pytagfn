@@ -17,13 +17,13 @@ class FaaSResponse:
 class Tagger:
     def __init__(self,conn):
         try:
-            self.username=os.environ['VCUSERNAME']
-            self.password=os.environ['VCPASSWORD']
+            self.username=os.environ['VC_USERNAME']
+            self.password=os.environ['VC_PASSWORD']
             self.vc=os.environ['VC']
-            self.tagurn=os.environ['TAGURN']
-            self.action=os.environ['TAGACTION'].lower()
+            self.tagurn=os.environ['TAG_URN']
+            self.action=os.environ['TAG_ACTION'].lower()
         except KeyError:
-            print('VC, VCUSERNAME, VCPASSWORD, TAGURN and TAGACTION environment variables must be set')
+            print('VC, VC_USERNAME, VC_PASSWORD, TAG_URN and TAG_ACTION environment variables must be set')
             sys.exit(1)
         self.session=conn
 

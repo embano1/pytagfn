@@ -12,18 +12,18 @@ Modify the function `stack.yaml` as per your environment:
 - Either add the OpenFaaS `gateway: <URL|IP>` information under `provider` or `export` it as an environment variable used by `faas-cli`
 - Modify environment variables:
   - VC    - FQDN/IP for vCenter
-  - VCUSERNAME - Username to access vCenter
-  - VCPASSWORD - Password to access vCenter
-  - TAGURN   - Unique ID for the tag to be attached
-  - TAGACTION - Tag action to perform, e.g. "attach" or "detach"
+  - VC_USERNAME - Username to access vCenter
+  - VC_PASSWORD - Password to access vCenter
+  - TAG_URN   - Unique ID for the tag to be attached
+  - TAG_ACTION - Tag action to perform, e.g. "attach" or "detach"
 - A key-value annotation defines which VM event should trigger the function
   - A list of VM events from vCenter can be found [here](https://code.vmware.com/doc/preview?id=4206#/doc/vim.event.VmEvent.html)
   - The `topic` key-value annotation uses `.` syntax, e.g. `VmPoweredOnEvent` maps to `vm.powered.on`
 
 **Note:** OpenFaaS provides some useful [debugging](https://docs.openfaas.com/deployment/troubleshooting/) configured via environment variables `write_debug` and `read_debug`.
 
-### How to retrieve the `TAGURN`
-The `TAGURN` can be retrieved from the ID field in the object, e.g. with `govc`:
+### How to retrieve the `TAG_URN`
+The `TAG_URN` can be retrieved from the ID field in the object, e.g. with `govc`:
 
 ```bash
 $ govc tags.info <tag>            # example uses "vmon" as the tag name

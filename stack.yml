@@ -8,9 +8,9 @@ functions:
     image: embano1/pytag-fn:0.1
     environment:
       VC: 
-      VCUSERNAME: 
-      VCPASSWORD: 
-      TAGURN: 
-      TAGACTION: 
+      VC_USERNAME: 
+      VC_PASSWORD: 
+      TAG_URN: 
+      TAG_ACTION: 
     annotations:
       topic: vm.powered.on
