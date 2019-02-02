@@ -42,7 +42,7 @@ class Tagger:
             resp = self.session.post('https://'+self.vc+VAPI_TAG_PATH+self.tagurn+'?~action='+self.action,json=obj)
             resp.raise_for_status()
             print(resp.text)
-            return FaaSResponse('200', 'successfully {0}ed tag on VM: {1}'.format(self.action, obj['object_id']['id']))
+            return FaaSResponse('200', 'successfully {0}ed tag on: {1}'.format(self.action, obj['object_id']['id']))
         except requests.HTTPError as err:
             return FaaSResponse('500', 'could not tag object {0}'.format(err))
 
@@ -55,7 +55,9 @@ def handle(req):
         print(json.dumps(vars(res)))
         return
         
-    # Assert managed object reference ('moref', e.g. to aVM) exists
+    # Assert managed object reference ('moref', e.g. to a VM) exists
+    # For debugging: validate the JSON blob we received - uncomment if needed
+    # print(j)
     try:
         ref = (j['moref'])
     except KeyError as err:
