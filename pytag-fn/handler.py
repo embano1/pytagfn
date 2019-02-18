@@ -55,11 +55,11 @@ def handle(req):
         print(json.dumps(vars(res)))
         return
         
-    # Assert managed object reference ('moref', e.g. to a VM) exists
+    # Assert managed object reference (e.g. to a VM) exists
     # For debugging: validate the JSON blob we received - uncomment if needed
     # print(j)
     try:
-        ref = (j['moref'])
+        ref = (j['managedObjectReference'])
     except KeyError as err:
         res = FaaSResponse('400','JSON does not contain ManagedObjectReference {0}'.format(err))
         print(json.dumps(vars(res)))
