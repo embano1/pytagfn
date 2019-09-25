@@ -52,3 +52,23 @@ If the event topic is `vm.powered.on` the function can be triggered via the vCen
 ```bash
 $ govc vm.power -on '*'
 ```
+
+# Develop (Python >=3.4)
+
+After you've cloned the code you can easily create a virtual Python environment to make changes/contribute:
+
+```bash
+$ cd <cloned_directory>
+$ python -m venv .
+$ source bin/activate
+$ pip install -r requirements.txt
+<make changes>
+```
+
+If you add new dependencies `pipreqs` is a useful tool to only reflect used packages in `requirements.txt`:
+
+```bash
+$ pipreqs --savepath ./requirements.txt pytag-fn/
+```
+
+Read more about it [here](https://medium.com/python-pandemonium/better-python-dependency-and-package-management-b5d8ea29dff1).
