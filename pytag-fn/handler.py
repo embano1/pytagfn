@@ -1,5 +1,7 @@
-import sys, json, requests, os
+import sys, json, os
 import urllib3
+import requests
+import toml
 
 # Surpress SSL warnings
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -7,6 +9,7 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 ### VAPI REST endpoints
 VAPI_SESSION_PATH='/rest/com/vmware/cis/session'
 VAPI_TAG_PATH='/rest/com/vmware/cis/tagging/tag-association/id:'
+VC_CONFIG='/var/openfaas/secrets/vcconfig'
 
 ### Simple VAPI REST tagging implementation
 class FaaSResponse:
@@ -17,13 +20,18 @@ class FaaSResponse:
 class Tagger:
     def __init__(self,conn):
         try:
-            self.username=os.environ['VC_USERNAME']
-            self.password=os.environ['VC_PASSWORD']
-            self.vc=os.environ['VC']
-            self.tagurn=os.environ['TAG_URN']
-            self.action=os.environ['TAG_ACTION'].lower()
-        except KeyError:
-            print('VC, VC_USERNAME, VC_PASSWORD, TAG_URN and TAG_ACTION environment variables must be set')
+            with open(VC_CONFIG, 'r') as vcconfigfile:
+                vcconfig = toml.load(vcconfigfile)
+                self.vc=vcconfig['vcenter']['server']
+                self.username=vcconfig['vcenter']['user']
+                self.password=vcconfig['vcenter']['password']
+                self.tagurn=vcconfig['tag']['urn']
+                self.action=vcconfig['tag']['action'].lower()
+        except OSError as e:
+            print(f'could not read vcenter configuration: {e}')
+            sys.exit(1)
+        except KeyError as e:
+            print(f'mandatory configuration key not found: {e}')
             sys.exit(1)
         self.session=conn
 

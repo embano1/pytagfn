@@ -5,12 +5,11 @@ functions:
   pytag-fn:
     lang: python3
     handler: ./pytag-fn
-    image: embano1/pytag-fn:0.1
+    image: embano1/pytag-fn:0.2
     environment:
-      VC: 
-      VC_USERNAME: 
-      VC_PASSWORD: 
-      TAG_URN: 
-      TAG_ACTION: 
+      write_debug: true
+      read_debuge: true
+    secrets:
+      - vcconfig
     annotations:
       topic: vm.powered.on
