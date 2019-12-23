@@ -1,9 +1,15 @@
 # About
-OpenFaaS Python function example for the [OpenFaaS vCenter Connector](https://github.com/openfaas-incubator/vcenter-connector).
+OpenFaaS Python function example for the [VMware Event Router](https://github.com/vmware-samples/vcenter-event-broker-appliance/vmware-event-router).
 
 # Usage
 ## Requirements
-These steps require a running [OpenFaaS](https://docs.openfaas.com/deployment/) and [vSphere (vCenter)](https://docs.vmware.com/en/VMware-vSphere/index.html) environment. Also, the [OpenFaaS vCenter Connector](https://github.com/openfaas-incubator/vcenter-connector) must set be up correctly before deploying this example.
+These steps require a running environment with:
+
+- [OpenFaaS](https://docs.openfaas.com/deployment/)
+- [vSphere (vCenter)](https://docs.vmware.com/en/VMware-vSphere/index.html)
+- [VMware Event Router](https://github.com/vmware-samples/vcenter-event-broker-appliance/vmware-event-router)
+
+> **Note:** Alternatively, the [vCenter Event Broker Appliance](https://github.com/vmware-samples/vcenter-event-broker-appliance/) can be used to ease the deployment.
 
 ## Deployment
 - Add the OpenFaaS `gateway: <URL or IP>` information under `provider` or `export` it as an environment variable used by `faas-cli` (`export OPENFAAS_URL=http://...`
@@ -12,10 +18,9 @@ These steps require a running [OpenFaaS](https://docs.openfaas.com/deployment/) 
   - This is for security reasons to not expose sensitive data
   - If you follow the steps below how to pass this information as a secret into OpenFaaS you only need to change the pre-defined key/value pairs in [vcconfig.toml](vcconfig.toml)
   - Please see [below](#how-to-retrieve-the-tagurn) how to retrieve the TAG URN parameter
-- A key-value annotation under `topic` defines which VM event should trigger the function (currently only one event per function is supported)
+- A key-value annotation under `topic` defines which VM event should trigger the function
   - A list of VM events from vCenter can be found [here](https://code.vmware.com/doc/preview?id=4206#/doc/vim.event.VmEvent.html)
-  - The `topic` key-value annotation uses `.` syntax, e.g. `VmPoweredOnEvent` maps to `vm.powered.on`
-    - In a DRS-enabled cluster use `drs.vm.powered.on` instead
+  - Multiple topics can be specified using a `","`  delimiter, e.g. "`topic: "VmPoweredOnEvent,VmPoweredOffEvent"`"
 
 **Note:** OpenFaaS provides some useful [debugging](https://docs.openfaas.com/deployment/troubleshooting/) configured via environment variables `write_debug` and `read_debug`.
 
@@ -23,20 +28,20 @@ Here's an example for `stack.yml`:
 
 ```yaml
 provider:
-  name: faas
+  name: openfaas
   gateway: http://127.0.0.1:8080
 functions:
   pytag-fn:
     lang: python3
     handler: ./pytag-fn
-    image: embano1/pytag-fn:0.2
+    image: embano1/pytag-fn:0.3
     environment:
       write_debug: true
       read_debug: true
     secrets:
       - vcconfig
     annotations:
-      topic: vm.powered.on
+      topic: VmPoweredOnEvent
 ```
 
 Now create pass the vCenter and TAG information defined in `vcconfig.toml` into OpenFaaS as a secret:
@@ -69,7 +74,7 @@ Link to `govc`: https://github.com/vmware/govmomi/tree/master/govc
 
 ### Invoke the Function
 
-If the event topic is `vm.powered.on` the function can be triggered via the vCenter Client UI or using `govc`:
+If the event topic is `VmPoweredOnEvent` the function can be triggered via the vCenter Client UI or using `govc`:
 
 ```bash
 # be careful as this wildcard will power on all VMs in your environment
