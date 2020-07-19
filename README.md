@@ -12,7 +12,7 @@ These steps require a running environment with:
 > **Note:** Alternatively, the [vCenter Event Broker Appliance](https://github.com/vmware-samples/vcenter-event-broker-appliance/) can be used to ease the deployment.
 
 ## Deployment
-- Add the OpenFaaS `gateway: <URL or IP>` information under `provider` or `export` it as an environment variable used by `faas-cli` (`export OPENFAAS_URL=http://...`
+- Add the OpenFaaS `gateway: <URL or IP>` information under `provider` or `export` it as an environment variable used by `faas-cli` (`export OPENFAAS_URL=http://...)`
   - The `faas-cli` documentation can be found [here](https://docs.openfaas.com/cli/install/)
 - vCenter credentials and information about the tag ID and operation to be performed is stored in `vcconfig.toml`
   - This is for security reasons to not expose sensitive data
